@@ -1,0 +1,163 @@
+# V2ray
+### 主要结构：v2fly.org
+
+```bash
+# 安裝執行檔和 .dat 資料檔
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+# 只更新 .dat 資料檔
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)
+```
+
+### 配置websocket
+> https://www.misterma.com/archives/856/#comment-735
+
+### uuid
+
+```bash
+cat /proc/sys/kernel/random/uuid
+```
+
+### ssl证书
+
+```bash
+openssl pkcs12 -in webvt.mzhyui.cn.pfx -nodes -out webvt.mzhyui.cn.pem
+openssl rsa -in webvt.mzhyui.cn.pem -out webvt.mzhyui.cn.key
+```
+### outbounds
+
+```json
+"outbounds": [{
+    // Protocol name of the outbound proxy.
+    "protocol": "vmess",
+
+    // Settings of the protocol. Varies based on protocol.
+    "settings": {
+      "vnext": [
+        {
+          "address": "xxx", 
+          "port": 443,
+          "users": [
+            {
+              "id": "xxx",
+              "alterId": 0
+            }
+          ]
+        }
+      ]
+    },
+    "streamSettings": {
+      "network": "ws",
+      "security": "tls",
+      "wsSettings": {
+        "path": "/"
+      }
+    },
+    // Tag of the outbound. May be used for routing.
+    "tag": "direct"
+  }
+```
+### v2ray闪退
+在cmd中打开v2ray.exe可以看到对应stdout
+
+### 无数据传入
+检查服务器端防火墙
+```bash
+ufw reload
+ufw allow 12333
+```
+
+## 目前配置
+~~一级代理：华为云，webs.mzhyui.cn，vmess+websocket+tls
+一级代理：vultr-jp，webvt.mzhyui.cn，vmess+websocket+tls+ecdn
+一级代理：vultr-us，webaws.mzhyui.cn，vmess+websocket+tls+ecdn
+一级代理：vultr-tcl，webtcl.mzhyui.cn，vmess+websocket+tls+cdn~~ 
+
+### ecnd
+腾讯云添加cdn域名解析，源选择ip，解析域名选择绑定域名。
+
+### 开机自动运行命令
+https://blog.csdn.net/weixin_42451919/article/details/88971503
+
+### 关闭密码登录
+https://www.jianshu.com/p/cc612e53ac75
+
+```bash
+vim /etc/ssh/sshd_config
+PasswordAuthentication no
+PermitRootLogin no 
+```
+
+添加腾讯云ECDN
+
+### 待改进
+ssh爆破ip屏蔽
+https://www.linode.com/community/questions/17788/ddos-on-ssh-port
+https://baijiahao.baidu.com/s?id=1668945207293073822&wfr=spider&for=pc
+https://blog.csdn.net/u013488847/article/details/88596552
+恶意命令检测
+https://www.cnblogs.com/sec875/p/10060697.html
+https://blog.csdn.net/whatday/article/details/105000271
+
+# GitHub坑记
+## 建仓
+github创建新仓库
+clone到本地，默认main分支
+测试连接
+```bash
+ssh -T git@github.com
+```
+## 提交
+[注意gitignore的编码是否为utf-8](https://stackoverflow.com/questions/3833561/why-doesnt-git-ignore-my-specified-file/48185811#48185811)
+
+```bash
+git add .
+git commit -m "message“
+git push origin main
+```
+## 分支
+```bash
+git branch alter_version
+git checkout alter_version
+# git checkout -b <branch>           create and checkout a new branch
+```
+查看远程分支
+```bash
+git fetch
+git branch -a
+```
+获取远程分支
+```bash
+git checkout -b alter_version origin/alter_version
+```
+部分文件合并
+```bash
+git checkout alter_version a.file b.file
+```
+删除远程分支
+```bash
+git push origin -d alter_version 
+```
+## 删除
+```bash
+git rm filename.type
+```
+## 私仓
+> [服务器上的 Git - 在服务器上搭建 Git](https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%90%AD%E5%BB%BA-Git)
+
+
+# 服务配置
+## 公网虚拟局域网
+> https://github.com/SoftEtherVPN/SoftEtherVPN_Stable
+> https://zhuanlan.zhihu.com/p/414145546
+## mail
+> https://blog.csdn.net/N_jw107/article/details/119521517
+## docker
+```bash
+sudo usermod -a -G docker user
+```
+## redis
+```bash
+# 配置密码
+config get requirepass
+config set requirepass "pass"
+```

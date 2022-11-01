@@ -189,7 +189,7 @@ $ sudo usermod -a -G docker user
 docker添加挂载路径：
 > https://segmentfault.com/q/1010000020514283
 ```bash
-docker commit #提交当前容器
+docker commit #提交当前容器，储存为新的image
 docker save #保存镜像
 docker load #加载镜像
 docker run #从保存的容器重新运行，可修改挂载/端口等路径

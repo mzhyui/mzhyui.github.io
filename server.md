@@ -216,3 +216,11 @@ Problem: cannot activate nvidia runtime without sudo
 
 ## code-server
 local server port:0.0.0.0:8080
+
+## python
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt install python3.10
+```

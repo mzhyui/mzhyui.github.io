@@ -179,6 +179,7 @@ Having some local servers and a remote server with PUBLIC IP, we can use ssh to 
 
 ## Port forwarding
 local_server -> remote_server -> desired_server
+
 In this case, the traffic to local_server:local_server_port will be forwarded to the desired_server_ip:desired_server_port, with the remote_server as a bridge.
 ```bash
 ssh -i /path/to/prikey -N -L [0.0.0.0:]local_server_port:desired_server_ip:desired_server_port user@remote_server_ip
@@ -186,6 +187,7 @@ ssh -i /path/to/prikey -N -L [0.0.0.0:]local_server_port:desired_server_ip:desir
 
 ## Port projecting
 other_server -> remote_server -> local_server
+
 In this case, the local server project the local services to the remote server, and other servers can access these services through remote server.
 ```bash
 ssh -i /path/to/prikey -N -R [0.0.0.0:]remote_server_port:localhost:local_server_port user@remote_server_ip

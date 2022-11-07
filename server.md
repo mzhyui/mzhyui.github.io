@@ -236,6 +236,9 @@ Problem: cannot activate nvidia runtime without sudo
 ## code-server
 local server port:0.0.0.0:8080
 
+ipynb fail loading:
+> https://zhuanlan.zhihu.com/p/564827656
+
 ## python
 ```bash
 sudo apt update && sudo apt upgrade -y

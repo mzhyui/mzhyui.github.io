@@ -17,7 +17,12 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 cat /proc/sys/kernel/random/uuid
 ```
 
-### 端口
+### 端口防火墙
+```bash
+ufw reload
+ufw allow 12333
+```
+
 ```bash
 iptables -P INPUT ACCEPT
 iptables -P OUTPUT ACCEPT
@@ -32,6 +37,8 @@ or
 iptables-save > iptables.bak
 iptables-restore iptables.bak
 ```
+
+ssh has been changed to socket mode. Modification of /etc/systemd/system/ssh.service.d/00-socket.conf may be needed.
 
 ### ssl证书
 
@@ -88,12 +95,6 @@ openssl rsa -in privkey.pem -out privkey.key
 ### v2ray闪退
 在cmd中打开v2ray.exe可以看到对应stdout
 
-### 无数据传入
-检查服务器端防火墙
-```bash
-ufw reload
-ufw allow 12333
-```
 
 ## 目前配置
 ~~一级代理：华为云，webs.mzhyui.cn，vmess+websocket+tls

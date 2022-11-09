@@ -20,8 +20,13 @@ cat /proc/sys/kernel/random/uuid
 ### ssl证书
 
 ```bash
+#pfx
 openssl pkcs12 -in webvt.mzhyui.cn.pfx -nodes -out webvt.mzhyui.cn.pem
 openssl rsa -in webvt.mzhyui.cn.pem -out webvt.mzhyui.cn.key
+
+#pem
+openssl x509 -in fullchain.pem -out fullchain.crt
+openssl rsa -in privkey.pem -out privkey.key
 ```
 ### outbounds
 
@@ -91,12 +96,19 @@ PermitRootLogin no
 
 ### 待改进
 ssh爆破ip屏蔽
-https://www.linode.com/community/questions/17788/ddos-on-ssh-port
-https://baijiahao.baidu.com/s?id=1668945207293073822&wfr=spider&for=pc
-https://blog.csdn.net/u013488847/article/details/88596552
+> fail2ban
+> 
+> https://www.linode.com/community/questions/17788/ddos-on-ssh-port
+> 
+> https://baijiahao.baidu.com/s?id=1668945207293073822&wfr=spider&for=pc
+> 
+> https://blog.csdn.net/u013488847/article/details/88596552
+
 恶意命令检测
-https://www.cnblogs.com/sec875/p/10060697.html
-https://blog.csdn.net/whatday/article/details/105000271
+> https://www.cnblogs.com/sec875/p/10060697.html
+> 
+> https://blog.csdn.net/whatday/article/details/105000271
+
 # GitHub坑记
 ## 建仓
 github创建新仓库

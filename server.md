@@ -35,6 +35,14 @@ iptables-restore iptables.bak
 
 ### ssl证书
 
+letCert sign
+```bash
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+```
+
 ```bash
 #pfx
 openssl pkcs12 -in webvt.mzhyui.cn.pfx -nodes -out webvt.mzhyui.cn.pem

@@ -41,6 +41,15 @@ iptables-restore iptables.bak
 ssh has been changed to socket mode. Modification of /etc/systemd/system/ssh.service.d/00-socket.conf may be needed.
 > https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189/11
 
+and modify the sshd_config
+```
+# At the end of the file
+ChallengeResponseAuthentication no
+
+Match User *
+    PasswordAuthentication no
+```
+
 ### Timezone/Time update
 ```bash
 ntpdate -u time.nist.gov

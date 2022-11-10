@@ -39,7 +39,13 @@ iptables-restore iptables.bak
 ```
 
 ssh has been changed to socket mode. Modification of /etc/systemd/system/ssh.service.d/00-socket.conf may be needed.
+> https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189/11
 
+### Timezone/Time update
+```bash
+ntpdate -u time.nist.gov
+tzselect
+```
 ### ssl证书
 
 letCert sign
@@ -56,8 +62,8 @@ openssl pkcs12 -in webvt.mzhyui.cn.pfx -nodes -out webvt.mzhyui.cn.pem
 openssl rsa -in webvt.mzhyui.cn.pem -out webvt.mzhyui.cn.key
 
 #pem
-openssl x509 -in fullchain.pem -out fullchain.crt
-openssl rsa -in privkey.pem -out privkey.key
+openssl x509 -in /etc/letsencrypt/live/free.mzhyui.com/fullchain.pem -out /etc/letsencrypt/live/free.mzhyui.com/fullchain.crt
+openssl rsa -in /etc/letsencrypt/live/free.mzhyui.com/privkey.pem -out /etc/letsencrypt/live/free.mzhyui.com/privkey.key
 ```
 ### outbounds
 

@@ -248,6 +248,12 @@ ssh -i /path/to/prikey -N -R [0.0.0.0:]remote_server_port:localhost:local_server
 # docker
 不用sudo
 > https://blog.csdn.net/boling_cavalry/article/details/106590784
+```bash
+#if not docker-compose installed, sudo groupadd docker
+sudo gpasswd -a ${USER} docker
+sudo systemctl restart docker
+sudo chmod a+rw /var/run/docker.sock
+```
 
 pytorch
 > https://www.jianshu.com/p/0afeacdd7234

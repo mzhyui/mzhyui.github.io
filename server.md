@@ -1,5 +1,6 @@
 # V2ray
 ### 主要结构：v2fly.org
+> https://github.com/v2fly/v2ray-core
 
 ```bash
 # 安裝執行檔和 .dat 資料檔

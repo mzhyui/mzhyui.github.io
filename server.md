@@ -245,6 +245,7 @@ In this case, the local server project the local services to the remote server, 
 ```bash
 ssh -i /path/to/prikey -N -R [0.0.0.0:]remote_server_port:localhost:local_server_port user@remote_server_ip
 ```
+If remote_server wants to make the port available on 0.0.0.0, the `AllowTcpForwarding yes` should be added in /etc/ssh/sshd_config 
 
 # docker
 不用sudo

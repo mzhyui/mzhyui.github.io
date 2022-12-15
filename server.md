@@ -257,6 +257,11 @@ sudo systemctl restart docker
 sudo chmod a+rw /var/run/docker.sock
 ```
 
+# execute as user1
+```bash
+su -c '/home/user1/test.sh' user1
+```
+
 pytorch
 > https://www.jianshu.com/p/0afeacdd7234
 

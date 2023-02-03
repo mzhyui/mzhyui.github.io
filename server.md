@@ -12,6 +12,87 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 ### 配置websocket
 > https://www.misterma.com/archives/856/#comment-735
 
+### config
+```json
+{
+  "log": {
+        "access": "/var/log/v2ray/access.log",
+        "error": "/var/log/v2ray/error.log",
+        "level": "info"
+  },
+  "inbounds": [
+    {
+      "port": 8080, // 服务器监听端口
+      //"listen": "127.0.0.1",
+      "protocol": "vmess",    // 主传入协议
+      "settings": {
+        "clients": [
+          {
+            "id": "yourID",  // 用户 ID，客户端与服务器必须相同
+            "level": 1,
+            "alterId": 0
+          }
+        ]
+      }
+    },
+    {
+      "port": 443,
+      //"listen": "127.0.0.1",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "yourID",
+            "alterId": 0
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "serverName",
+          "allowInsecure": false,
+          "certificates": [
+            {
+              "certificateFile": "/usr/local/etc/v2ray/fullchain.pem",
+              "keyFile": "/usr/local/etc/v2ray/privkey.pem"
+            }
+          ]
+        },
+        "wsSettings": {
+          "path": "/",
+          "headers": {}
+        }
+      },
+      "tag": "",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",  // 主传出协议
+      "settings": {}
+    }
+  ],
+  "transport": {
+      "wsSettings":{
+          "acceptProxyProtocol": false,
+          "path": "/",
+          "headers": {
+              "Host": "serverName"
+          }
+      }
+  }
+}
+```
+
 ### uuid
 
 ```bash

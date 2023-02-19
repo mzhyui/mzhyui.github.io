@@ -240,7 +240,8 @@ ssh爆破ip屏蔽
 > 
 > https://blog.csdn.net/whatday/article/details/105000271
 
-# GitHub坑记
+# GitHub
+
 ## 建仓
 github创建新仓库
 clone到本地，默认main分支
@@ -253,8 +254,12 @@ $ ssh -T git@github.com
 
 ```bash
 git add .
-git commit -m "message“
+git commit -m "message"
 git push origin main
+```
+or
+```bash
+git commit -am "message"
 ```
 ### 暂存
 ```bash
@@ -346,7 +351,16 @@ ssh -i /path/to/prikey -N -R [0.0.0.0:]remote_server_port:localhost:local_server
 If remote_server wants to make the port available on 0.0.0.0, the `AllowTcpForwarding yes; GatewayPorts yes` should be added in /etc/ssh/sshd_config 
 
 # docker
-不用sudo
+
+## commands
+```bash
+docker ps [-a]
+docker image ls
+docker container ls [-a][-s, --size]
+docker system df [-v, --verbose]
+```
+
+## 不用sudo
 > https://blog.csdn.net/boling_cavalry/article/details/106590784
 ```bash
 #if not docker-compose installed, sudo groupadd docker
@@ -356,15 +370,15 @@ sudo chmod a+rw /var/run/docker.sock
 ```
 
 
-pytorch
+## pytorch
 > https://www.jianshu.com/p/0afeacdd7234
 
-添加用户组
+## 添加用户组
 ```bash
 $ sudo usermod -a -G docker user
 
 ```
-docker添加挂载路径：
+## docker添加挂载路径：
 > https://segmentfault.com/q/1010000020514283
 ```bash
 docker commit #提交当前容器，储存为新的image
@@ -398,7 +412,7 @@ local server port:0.0.0.0:8080
 ipynb fail loading:
 > https://zhuanlan.zhihu.com/p/564827656
 
-## python
+# python
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install software-properties-common -y

@@ -1,5 +1,5 @@
 # V2ray
-### 主要结构：v2fly.org
+## 主要结构：v2fly.org
 > https://github.com/v2fly/v2ray-core
 
 ```bash
@@ -9,10 +9,16 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)
 ```
 
-### 配置websocket
+
+## execute as user1
+```bash
+su -c '/home/user1/test.sh' user1
+```
+
+## 配置websocket
 > https://www.misterma.com/archives/856/#comment-735
 
-### config
+## config
 ```json
 {
   "log": {
@@ -93,13 +99,13 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 }
 ```
 
-### uuid
+## uuid
 
 ```bash
 cat /proc/sys/kernel/random/uuid
 ```
 
-### 端口防火墙
+## 端口防火墙
 ```bash
 ufw reload
 ufw allow 12333
@@ -132,12 +138,12 @@ Match User *
     PasswordAuthentication no
 ```
 
-### Timezone/Time update
+## Timezone/Time update
 ```bash
 ntpdate -u time.nist.gov
 tzselect
 ```
-### ssl证书
+## ssl证书
 
 letCert sign
 ```bash
@@ -156,7 +162,7 @@ openssl rsa -in webvt.mzhyui.cn.pem -out webvt.mzhyui.cn.key
 openssl x509 -in /etc/letsencrypt/live/free.mzhyui.com/fullchain.pem -out /etc/letsencrypt/live/free.mzhyui.com/fullchain.crt
 openssl rsa -in /etc/letsencrypt/live/free.mzhyui.com/privkey.pem -out /etc/letsencrypt/live/free.mzhyui.com/privkey.key
 ```
-### outbounds
+## outbounds
 
 ```json
 "outbounds": [{
@@ -189,11 +195,14 @@ openssl rsa -in /etc/letsencrypt/live/free.mzhyui.com/privkey.pem -out /etc/lets
     "tag": "direct"
   }
 ```
-### v2ray闪退
+
+## v2ray config
+
+### v2ray闪退(windows)
 在cmd中打开v2ray.exe可以看到对应stdout
 
 
-## 目前配置
+### 目前配置
 ~~一级代理：华为云，webs.mzhyui.cn，vmess+websocket+tls
 一级代理：vultr-jp，webvt.mzhyui.cn，vmess+websocket+tls+ecdn
 一级代理：vultr-us，webaws.mzhyui.cn，vmess+websocket+tls+ecdn
@@ -247,7 +256,7 @@ git add .
 git commit -m "message“
 git push origin main
 ```
-暂存
+### 暂存
 ```bash
 git stash
 git stash list
@@ -259,20 +268,20 @@ git branch alter_version
 git checkout alter_version
 # git checkout -b <branch>           create and checkout a new branch
 ```
-查看远程分支
+### 查看远程分支
 ```bash
 git fetch
 git branch -a
 ```
-获取远程分支
+### 获取远程分支
 ```bash
 git checkout -b alter_version origin/alter_version
 ```
-部分文件合并
+### 部分文件合并
 ```bash
 git checkout alter_version a.file b.file
 ```
-删除远程分支
+### 删除远程分支
 ```bash
 git push origin -d alter_version 
 ```
@@ -280,6 +289,12 @@ git push origin -d alter_version
 ```bash
 git rm filename.type
 ```
+
+## edit remote link (ssh/https)
+```bash
+git remote set-url origin [origin here]
+```
+
 ## 私仓
 > [服务器上的 Git - 在服务器上搭建 Git](https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%90%AD%E5%BB%BA-Git)
 
@@ -290,6 +305,8 @@ ssl
 > 
 启动环境
 > https://blog.csdn.net/weixin_44560088/article/details/121050748
+
+
 # 服务配置
 ## 公网虚拟局域网
 > https://github.com/SoftEtherVPN/SoftEtherVPN_Stable
@@ -338,10 +355,6 @@ sudo systemctl restart docker
 sudo chmod a+rw /var/run/docker.sock
 ```
 
-# execute as user1
-```bash
-su -c '/home/user1/test.sh' user1
-```
 
 pytorch
 > https://www.jianshu.com/p/0afeacdd7234

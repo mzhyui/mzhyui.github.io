@@ -295,6 +295,16 @@ git push origin -d alter_version
 git rm filename.type
 ```
 
+### Rebase
+to delete a commit/commits from history
+```bash
+git rebase -i HEAD~3
+# The command git rebase -i HEAD~3 means to perform an interactive rebase on the last 3 commits on the current branch,
+git rebase -i [commit id]
+```
+notice that the commit id is the commit before the commit you want to delete
+be aware of the untracked files which are created by the commits that deleted
+
 ## edit remote link (ssh/https)
 ```bash
 git remote set-url origin [origin here]
@@ -322,6 +332,27 @@ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j MASQUERADE
 ## mail
 > https://blog.csdn.net/N_jw107/article/details/119521517
 
+
+## route
+To set up block rules from a file using iptables on Linux, you can follow these general steps:
+
+Create a file with the block rules: Create a new file (e.g., blocklist.txt) that contains the IP addresses or CIDR ranges that you want to block, one per line.
+
+Use iptables to add the rules: Run the following commands as root or with sudo privileges to add the block rules to iptables:
+
+```bash
+iptables -I INPUT -m set --match-set blocked_ips src -j DROP
+iptables -A INPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW -m set --match-set blocked_ips src -j REJECT --reject-with tcp-reset
+# These commands add two rules to iptables: The first rule drops all incoming traffic from IP addresses in the "blocked_ips" set, and the second rule rejects incoming TCP connections to ports 80 and 443 from those IP addresses.
+
+# Load the IP addresses from the file into ipset: Run the following command to create an ipset named "blocked_ips" and load the IP addresses from the file blocklist.txt:
+ipset create blocked_ips hash:net
+ipset add blocked_ips $(cat /path/to/blocklist.txt)
+# Save the iptables and ipset configuration: Run the following commands to save your iptables and ipset configuration so that they persist after a reboot:
+service netfilter-persistent save
+service ipset-persistent save
+# Note that these commands may vary depending on your Linux distribution and version of iptables. Also, make sure to test and verify your configuration before implementing it in a production environment.
+```
 
 ## redis
 ```bash

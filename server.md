@@ -105,38 +105,6 @@ su -c '/home/user1/test.sh' user1
 cat /proc/sys/kernel/random/uuid
 ```
 
-## 端口防火墙
-```bash
-ufw reload
-ufw allow 12333
-```
-
-```bash
-iptables -P INPUT ACCEPT
-iptables -P OUTPUT ACCEPT
-iptables -P FORWARD ACCEPT
-
-iptables -F INPUT
-iptables -F OUTPUT
-iptables -F FORWARD
-```
-or
-```bash
-iptables-save > iptables.bak
-iptables-restore iptables.bak
-```
-
-ssh has been changed to socket mode. Modification of /etc/systemd/system/ssh.service.d/00-socket.conf may be needed.
-> https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189/11
-
-and modify the sshd_config
-```
-# At the end of the file
-ChallengeResponseAuthentication no
-
-Match User *
-    PasswordAuthentication no
-```
 
 ## Timezone/Time update
 ```bash
@@ -332,8 +300,34 @@ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j MASQUERADE
 ## mail
 > https://blog.csdn.net/N_jw107/article/details/119521517
 
+## HTTP
+look up income ip in nginx log and save
+```bash
+sudo zcat /var/log/nginx/access.log* | awk '{print $1}' | sort | uniq -c | sort -nr > nginx_access_counts-$(date +%Y-%m-%d).txt
+```
+look up access with site-200
+```bash
+sudo zgrep 'chat\.mzhyui\.cn.* ' /var/log/nginx/access.log* | grep ' 200 ' > site-200-$(date +%Y-%m-%d).txt
+```
+look up ip counts in extracted log file like 
+> /var/log/nginx/access.log.9.gz:218.94.134.202 - - [07/Mar/2023:16:16:31 +0800] "POST /api/chat-process HTTP/1.1" 200 75151 "http://chat.mzhyui.cn/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+> /var/log/nginx/access.log.9.gz:218.94.134.202 - - [07/Mar/2023:16:16:59 +0800] "POST /api/chat-process HTTP/1.1" 200 90984 "http://chat.mzhyui.cn/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+```bash
+cat site.txt | awk '{match($0, /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/); print substr($0, RSTART, RLENGTH)}' | sort | uniq -c | sort -nr
+```
 
-## route
+
+## redis
+```bash
+# 配置密码
+config get requirepass
+config set requirepass "pass"
+```
+
+# Port
+Having some local servers and a remote server with PUBLIC IP, we can use ssh to build the tunnel.
+
+## route and firewall
 To set up block rules from a file using iptables on Linux, you can follow these general steps:
 
 Create a file with the block rules: Create a new file (e.g., blocklist.txt) that contains the IP addresses or CIDR ranges that you want to block, one per line.
@@ -354,15 +348,54 @@ service ipset-persistent save
 # Note that these commands may vary depending on your Linux distribution and version of iptables. Also, make sure to test and verify your configuration before implementing it in a production environment.
 ```
 
-## redis
 ```bash
-# 配置密码
-config get requirepass
-config set requirepass "pass"
+ufw reload
+ufw allow 12333
 ```
 
-# Port
-Having some local servers and a remote server with PUBLIC IP, we can use ssh to build the tunnel.
+```bash
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+
+iptables -F INPUT
+iptables -F OUTPUT
+iptables -F FORWARD
+```
+or
+```bash
+iptables-save > iptables.bak
+iptables-restore iptables.bak
+```
+
+ssh has been changed to socket mode. Modification of /etc/systemd/system/ssh.service.d/00-socket.conf may be needed.
+> https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189/11
+
+and modify the sshd_config
+```
+# At the end of the file
+ChallengeResponseAuthentication no
+
+Match User *
+    PasswordAuthentication no
+```
+
+```bash
+#!/bin/bash
+
+IPSET_NAME="blocked_ips"
+INPUT_FILE="/path/to/input_file.txt"
+
+# Create the ipset if it doesn't exist
+if ! ipset -L $IPSET_NAME > /dev/null 2>&1; then
+    ipset create $IPSET_NAME hash:net
+fi
+
+# Read each line from the input file and add it to the ipset
+while read -r line; do
+    ipset add $IPSET_NAME "$line"
+done < "$INPUT_FILE"
+```
 
 ## Port forwarding
 local_server -> remote_server -> desired_server

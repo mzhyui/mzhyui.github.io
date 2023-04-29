@@ -94,7 +94,7 @@ sudo systemctl status v2ray/xray
 
 # V2ray + Github Codespace + dante
 local machine -> v2ray service <- ssh port projecting -> dante server
-# v2ray server
+## v2ray server
 
 
 ```json
@@ -115,7 +115,7 @@ local machine -> v2ray service <- ssh port projecting -> dante server
                 ]
             }
 ```
-# dante server (Codespace server)
+## dante server (Codespace server)
 > https://www.digitalocean.com/community/tutorials/how-to-set-up-dante-proxy-on-ubuntu-20-04
 ```bash
 #port projecting
@@ -146,4 +146,9 @@ client pass {
 
 socks pass {
     from: 0.0.0.0/0 to: 0.0.0.0/0
+```
+## more
+allow port from ip
+```bash
+sudo ufw allow from dante_server_ip proto tcp to any port sssh_port
 ```

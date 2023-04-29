@@ -91,3 +91,59 @@ vim /usr/local/etc/xray/config.json
 sudo systemctl restart v2ray/xray
 sudo systemctl status v2ray/xray
 ```
+
+# V2ray + Github Codespace + dante
+local machine -> v2ray service <- ssh port projecting -> dante server
+# v2ray server
+
+
+```json
+# outbounds/settings
+"settings": {
+                "servers": [
+                     {
+                        "address": "127.0.0.1",
+                        "port": 1080,
+                        "users":[
+                        {
+                                "user": "dante",
+                                "pass": "password",
+                                "level": 0
+                        }
+                        ]
+                    }
+                ]
+            }
+```
+# dante server (Codespace server)
+> https://www.digitalocean.com/community/tutorials/how-to-set-up-dante-proxy-on-ubuntu-20-04
+```bash
+#port projecting
+ssh -p port -i ~/.ssh/key -N -R 1080:localhost:1080 lighthouse@v2rayserverip
+```
+
+```conf
+# /etc/danted.conf
+logoutput: syslog stdout /var/log/lotsoflogs
+user.privileged: root
+user.unprivileged: nobody
+
+# The listening network interface or address.
+internal: 0.0.0.0 port=1080
+
+# The proxying network interface or address.
+external: eth0
+
+# socks-rules determine what is proxied through the external interface.
+socksmethod: username
+
+# client-rules determine who can connect to the internal interface.
+clientmethod: none
+
+client pass {
+    from: localhost to: 0.0.0.0/0
+}
+
+socks pass {
+    from: 0.0.0.0/0 to: 0.0.0.0/0
+```

@@ -1,8 +1,8 @@
-# V2ray + CF Wrap
+# V2ray + CF Warp
 
 local machine -> v2ray service -> warp-svc -> reverse proxy
 
-## install Wrap
+## install Warp
 > https://pkg.cloudflareclient.com/packages/cloudflare-warp
 or
 > https://developers.cloudflare.com/warp-client/get-started/linux/
@@ -37,6 +37,13 @@ warp-cli status
 export ALL_PROXY=socks5://127.0.0.1:40000
 curl ifconfig.me
 ```
+### client setup with Zero trust
+```bash
+warp-cli teams-enroll [your_name_here] # name is under Zero trust / settings / general
+warp-cli teams-enroll-token [full_url_here] # the url can be shown in the webpage
+warp-cli connect
+```
+`problem`: no more v2ray connection if connected
 
 ## v2ray setting
 ```bash

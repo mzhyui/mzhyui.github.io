@@ -44,7 +44,12 @@ warp-cli teams-enroll [your_name_here] # name is under Zero trust / settings / g
 warp-cli teams-enroll-token [full_url_here] # the url can be shown in the webpage
 warp-cli connect
 ```
+
+### problems
 `problem`: no more v2ray connection if connected
+`handling`:
+Caused by Warp client strategies. When enrolled into the group, clients cannot use proxy mode, and Warp will handle all the traffic. In Settings > WARP Client, change the device tunnel rules to Include IPs and Domains.
+https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/configure-warp/route-traffic/split-tunnels/
 
 ## v2ray setting
 ```bash

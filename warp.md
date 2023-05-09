@@ -38,6 +38,7 @@ export ALL_PROXY=socks5://127.0.0.1:40000
 curl ifconfig.me
 ```
 ### client setup with Zero trust
+Settings -> Warp client -> Device enrollment -> manage rules
 ```bash
 warp-cli teams-enroll [your_name_here] # name is under Zero trust / settings / general
 warp-cli teams-enroll-token [full_url_here] # the url can be shown in the webpage

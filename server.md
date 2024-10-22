@@ -470,11 +470,48 @@ docker exec -it container_id bash
 
 Problem: cannot activate nvidia runtime without sudo
 
-## code-server
+# code-server
 local server port:0.0.0.0:8080
 
 ipynb fail loading:
 > https://zhuanlan.zhihu.com/p/564827656
+
+ssl:
+```yaml
+[ req ]
+default_bits       = 2048
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+x509_extensions    = v3_ca # The same as `req_ext` but for v3_ca certificates.
+prompt             = no
+
+[ req_distinguished_name ]
+C  = US
+ST = New York
+L  = New York
+O  = My Company
+OU = My Department
+CN = code-server.mzhyui.cn   # 这里是主域名或 IP 地址
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ v3_ca ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1   = code-server.my  # 第一个域名
+DNS.2   = localhost  # 第二个域名
+IP.1    = 127.0.0.1  # 第一个IP
+IP.2    = 10.208.70.77  # 第二个IP（可选，多个IP时依次编号）
+```
+
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout mykey.key -out mycert.crt -config ssl.conf
+```
+
+### boardcasting from wsl to windows and local network
+`netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=8080 connectaddress=localhost`
 
 # python
 ```bash
